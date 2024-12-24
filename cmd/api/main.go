@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"log/slog"
 	"os"
 	"runtime/debug"
@@ -12,13 +13,17 @@ import (
 	"github.com/Mustafa-IT/UserService/internal/env"
 	"github.com/Mustafa-IT/UserService/internal/version"
 
+	"github.com/joho/godotenv"
 	"github.com/lmittmann/tint"
 )
 
 func main() {
 	logger := slog.New(tint.NewHandler(os.Stdout, &tint.Options{Level: slog.LevelDebug}))
-
-	err := run(logger)
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	err = run(logger)
 	if err != nil {
 		trace := string(debug.Stack())
 		logger.Error(err.Error(), "trace", trace)
