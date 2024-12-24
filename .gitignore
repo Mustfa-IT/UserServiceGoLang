@@ -2,3 +2,5 @@ bin/
 tmp/
 .idea/
 build-errors.log
+
+.env
