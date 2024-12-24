@@ -18,7 +18,7 @@ import (
 )
 
 func main() {
-	logger := slog.New(tint.NewHandler(os.Stdout, &tint.Options{Level: slog.LevelWarn}))
+	logger := slog.New(tint.NewHandler(os.Stdout, &tint.Options{Level: slog.LevelDebug}))
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
