@@ -32,9 +32,10 @@ func main() {
 }
 
 type config struct {
-	baseURL  string
-	httpPort int
-	db       struct {
+	baseURL    string
+	httpPort   int
+	apiVersion string
+	db         struct {
 		dsn         string
 		automigrate bool
 	}
@@ -58,6 +59,7 @@ func run(logger *slog.Logger) error {
 	cfg.db.dsn = env.GetString("DB_DSN", "user:pass@localhost:5432/db")
 	cfg.db.automigrate = env.GetBool("DB_AUTOMIGRATE", true)
 	cfg.jwt.secretKey = env.GetString("JWT_SECRET_KEY", "z3wzhs7geydce42lb4wo7ydofhxzojgr")
+	cfg.apiVersion = env.GetString("API_VERSION", "v1")
 
 	showVersion := flag.Bool("version", false, "display version and exit")
 
