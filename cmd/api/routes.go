@@ -20,8 +20,8 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("/status", app.status).Methods("GET")
 
 	authRoutes := mux.PathPrefix("/auth").Subrouter()
-	authRoutes.HandleFunc("/login", app.createUser).Methods("POST")
-	authRoutes.HandleFunc("/register", app.createAuthenticationToken).Methods("POST")
+	authRoutes.HandleFunc("/register", app.createUser).Methods("POST")
+	authRoutes.HandleFunc("/login", app.createAuthenticationToken).Methods("POST")
 
 	//Protected routes
 	authenticatedRoutes := mux.NewRoute().Subrouter()
