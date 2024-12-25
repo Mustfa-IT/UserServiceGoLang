@@ -8,4 +8,13 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: user_service
+      POSTGRES_DB: user_service\
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+  zookeeper:
+    image: zookeeper
+    restart: always
+    hostname: zookeeper
+    ports:
+      - 2181:2181
