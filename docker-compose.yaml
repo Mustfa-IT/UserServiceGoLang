@@ -1,20 +1,17 @@
-name: User Service
 services:
   postgresql:
     image: postgres:16.2
     ports:
       - "5432:5432"
-
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: user_service\
+      POSTGRES_DB: user_service
     volumes:
       - ./data:/var/lib/postgresql/data
-
-  zookeeper:
-    image: zookeeper
     restart: always
-    hostname: zookeeper
+
+  consul:
+    image: hashicorp/consul:latest
     ports:
-      - 2181:2181
+      - "8500:8500"
