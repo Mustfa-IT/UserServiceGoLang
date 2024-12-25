@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"log/slog"
 	"os"
 	"runtime/debug"
@@ -13,17 +12,13 @@ import (
 	"github.com/Mustafa-IT/UserService/internal/env"
 	"github.com/Mustafa-IT/UserService/internal/version"
 
-	"github.com/joho/godotenv"
 	"github.com/lmittmann/tint"
 )
 
 func main() {
 	logger := slog.New(tint.NewHandler(os.Stdout, &tint.Options{Level: slog.LevelDebug}))
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-	err = run(logger)
+
+	err := run(logger)
 	if err != nil {
 		trace := string(debug.Stack())
 		logger.Error(err.Error(), "trace", trace)
@@ -32,10 +27,9 @@ func main() {
 }
 
 type config struct {
-	baseURL    string
-	httpPort   int
-	apiVersion string
-	db         struct {
+	baseURL  string
+	httpPort int
+	db       struct {
 		dsn         string
 		automigrate bool
 	}
@@ -59,7 +53,6 @@ func run(logger *slog.Logger) error {
 	cfg.db.dsn = env.GetString("DB_DSN", "user:pass@localhost:5432/db")
 	cfg.db.automigrate = env.GetBool("DB_AUTOMIGRATE", true)
 	cfg.jwt.secretKey = env.GetString("JWT_SECRET_KEY", "z3wzhs7geydce42lb4wo7ydofhxzojgr")
-	cfg.apiVersion = env.GetString("API_VERSION", "v1")
 
 	showVersion := flag.Bool("version", false, "display version and exit")
 

@@ -15,15 +15,12 @@ func (app *application) routes() http.Handler {
 	mux.Use(app.logAccess)
 	mux.Use(app.recoverPanic)
 	mux.Use(app.authenticate)
-	mux = mux.PathPrefix("/api/" + app.config.apiVersion).Subrouter()
-	// Public routes
+
 	mux.HandleFunc("/status", app.status).Methods("GET")
 
-	authRoutes := mux.PathPrefix("/auth").Subrouter()
-	authRoutes.HandleFunc("/register", app.createUser).Methods("POST")
-	authRoutes.HandleFunc("/login", app.createAuthenticationToken).Methods("POST")
+	mux.HandleFunc("/users", app.createUser).Methods("POST")
+	mux.HandleFunc("/authentication-tokens", app.createAuthenticationToken).Methods("POST")
 
-	//Protected routes
 	authenticatedRoutes := mux.NewRoute().Subrouter()
 	authenticatedRoutes.Use(app.requireAuthenticatedUser)
 	authenticatedRoutes.HandleFunc("/protected", app.protected).Methods("GET")
